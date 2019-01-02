@@ -1,5 +1,15 @@
 <template>
-  <input type="file" @change="uploadFile" ref="fileInput"/>
+  <div>
+    <input type="file"
+           data-cy="file-upload-input"
+           @change="uploadFile"
+           ref="fileInput"/>
+
+    <p v-if="typeError"
+       data-cy="file-upload-type-error">
+      FileType Error, expect npy file
+    </p>
+  </div>
 </template>
 
 <script>
@@ -7,15 +17,25 @@ export default {
   name: 'nv-file-loader',
   data () {
     return {
-      filePath: ''
+      filePath: '',
+      typeError: false
     }
   },
   methods: {
-    uploadFile (val) {
-      console.log('change file path', val)
-      console.log('change file path by :', this.$refs.fileInput.files)
+    uploadFile () {
+      this.typeError = false
 
-      this.$router.push({ name: 'viz' })
+      const selectedFile = this.$refs.fileInput.files[0]
+      console.log('change file path by :', selectedFile)
+
+      const ext = selectedFile.name.split('.').shift()
+
+      if (ext !== 'npy') {
+        this.typeError = true
+      } else {
+        // dispatch store action
+        this.$router.push({ name: 'viz' })
+      }
     }
   }
 }
