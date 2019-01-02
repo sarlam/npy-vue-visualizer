@@ -6,6 +6,7 @@
 
 <script>
 import NvFileLoader from '../components/FileLoader'
+
 export default {
   name: 'nv-home',
   components: { NvFileLoader }
