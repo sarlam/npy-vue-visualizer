@@ -3,7 +3,12 @@ import NumpyParser from 'numpy-parser'
 import ndarray from 'ndarray'
 
 export default {
-  loadFile: ({ commit }, file) => {
+  /**
+   *
+   * @param {Function} commit - store function
+   * @param {File} file - file from input
+   */
+  loadFile ({ commit }, file) {
     commit('SET_FILE_NAME', file.name)
 
     toBuffer(file, (err, buffer) => {
@@ -18,5 +23,15 @@ export default {
 
       commit('SET_RAW_DATA', finalArray)
     })
+  },
+
+  selectTime ({ commit, getters }, time) {
+    if (time < 0 || time > getters.maxTime) return
+    commit('SELECT_TIME', time)
+  },
+
+  selectZ ({ commit, getters }, z) {
+    if (z < 0 || z > getters.maxZ) return
+    commit('SELECT_Z', z)
   }
 }

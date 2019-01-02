@@ -12,12 +12,12 @@ export default {
   maxTime: (state, getters) => {
     if (!getters.isLoaded) return 0
 
-    return state.raw.stride[0]
+    return state.raw.shape[0]
   },
 
   maxZ: (state, getters) => {
     if (!getters.isLoaded) return 0
 
-    return state.raw.stride[1]
+    return state.raw.shape[1]
   }
 }
