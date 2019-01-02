@@ -1,18 +1,14 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <nv-file-loader></nv-file-loader>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import NvFileLoader from '../components/FileLoader'
 
 export default {
-  name: 'home',
-  components: {
-    HelloWorld
-  }
+  name: 'nv-home',
+  components: { NvFileLoader }
 }
 </script>
