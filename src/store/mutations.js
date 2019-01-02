@@ -2,6 +2,18 @@ export default {
   RESET: (state) => {
 
   },
+
+  /**
+   * setCurrent loaded file name
+   *
+   * @param state
+   * @param {String} fileName - from `file.name`
+   * @constructor
+   */
+  SET_FILE_NAME: (state, fileName) => {
+    state.npyFile = fileName
+  },
+
   /**
    *
    * @param {Object} state - VueX state

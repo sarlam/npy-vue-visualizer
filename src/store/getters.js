@@ -1,8 +1,12 @@
 import { isEmpty } from 'lodash'
 
 export default {
+  isLoading: (state) => {
+    return !isEmpty(state.npyFile) && (isEmpty(state.raw.shape) && isEmpty(state.raw.stride))
+  },
+
   isLoaded: (state) => {
-    return !(isEmpty(state.npyFile) && isEmpty(state.raw.shape) && isEmpty(state.raw.stride))
+    return !(isEmpty(state.npyFile) || isEmpty(state.raw.shape) || isEmpty(state.raw.stride))
   },
 
   maxTime: (state, getters) => {

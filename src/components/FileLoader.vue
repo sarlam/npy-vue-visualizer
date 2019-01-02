@@ -2,8 +2,13 @@
   <div>
     <input type="file"
            data-cy="file-upload-input"
+           :disabled="isLoading"
            @change="uploadFile"
            ref="fileInput"/>
+
+    <p v-if="isLoading">
+      Loading...
+    </p>
 
     <p v-if="typeError"
        data-cy="file-upload-type-error">
@@ -24,7 +29,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isLoaded'])
+    ...mapGetters(['isLoaded', 'isLoading'])
   },
   methods: {
     ...mapActions(['loadFile']),
@@ -33,19 +38,14 @@ export default {
        * test the uploaded file and load it the store if everything goes fine
        */
     uploadFile () {
+      // TODO error should be stored !
       this.typeError = false
-
       const selectedFile = this.$refs.fileInput.files[0]
-      console.log('change file path by :', selectedFile)
-
       const ext = selectedFile.name.split('.').pop()
-
-      console.log(ext)
 
       if (ext !== 'npy') {
         this.typeError = true
       } else {
-        // dispatch store action
         this.loadFile(selectedFile)
       }
     }
