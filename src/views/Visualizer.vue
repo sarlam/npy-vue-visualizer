@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div id="canvas"></div>
-    <nv-slider v-model="time" :max="maxTime"></nv-slider>
-    <nv-slider v-model="z" :max="maxZ"></nv-slider>
+    <nv-image/>
+    <nv-slider v-model="time" :max="maxTime"/>
+    <nv-slider v-model="z" :max="maxZ"/>
   </div>
 </template>
 
@@ -10,11 +10,13 @@
 import { toNumber } from 'lodash'
 import { mapGetters, mapActions } from 'vuex'
 
+import NvImage from '@/components/Image.vue'
 import NvSlider from '@/components/Slider.vue'
 
 export default {
   name: 'nv-visualizer',
   components: {
+    NvImage,
     NvSlider
   },
   created () {
