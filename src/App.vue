@@ -4,24 +4,45 @@
   </div>
 </template>
 
+<script>
+import { mapGetters } from 'vuex'
+
+export default {
+  name: 'App',
+  computed: {
+    ...mapGetters(['isLoaded'])
+  },
+  watch: {
+    isLoaded (itIs) {
+      if (itIs) {
+        this.$router.push({ name: 'viz' })
+      } else {
+        this.$router.push({ name: 'home' })
+      }
+    }
+  }
+}
+</script>
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+  }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+  #nav {
+    padding: 30px;
+  }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+  #nav a {
+    font-weight: bold;
+    color: #2c3e50;
+  }
+
+  #nav a.router-link-exact-active {
+    color: #42b983;
+  }
 </style>
