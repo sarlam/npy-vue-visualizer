@@ -1,8 +1,23 @@
 <template>
-  <div>
-    <nv-image/>
-    <nv-slider v-model="time" :max="maxTime"/>
-    <nv-slider v-model="z" :max="maxZ"/>
+  <div id="wrapper">
+    <main>
+      <section>
+        <nv-image class="nv-image"/>
+      </section>
+      <aside>
+        <nv-slider class="slider"
+                   vertical
+                   label="z"
+                   v-model="z"
+                   :max="maxZ"/>
+      </aside>
+    </main>
+    <footer>
+      <nv-slider class="slider"
+                 label="time"
+                 v-model="time"
+                 :max="maxTime"/>
+    </footer>
   </div>
 </template>
 
@@ -47,3 +62,38 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+  #wrapper {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+
+      section {
+        flex: 1;
+      }
+
+      aside {
+        flex: 0;
+      }
+    }
+
+    footer {
+      flex: 0;
+
+    }
+  }
+</style>
