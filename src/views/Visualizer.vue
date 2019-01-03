@@ -6,6 +6,7 @@
           <nv-image class="nv-image"/>
         </div>
         <div class="info">
+          <nv-infos></nv-infos>
           <button @click="unload">Unload</button>
         </div>
       </section>
@@ -32,12 +33,14 @@ import { mapGetters, mapActions } from 'vuex'
 
 import NvImage from '@/components/Image.vue'
 import NvSlider from '@/components/Slider.vue'
+import NvInfos from '@/components/Infos.vue'
 
 export default {
   name: 'nv-visualizer',
   components: {
     NvImage,
-    NvSlider
+    NvSlider,
+    NvInfos
   },
   created () {
     if (!this.isLoaded || this.isLoading) this.$router.push({ name: 'home' })
