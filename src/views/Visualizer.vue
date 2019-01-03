@@ -2,7 +2,12 @@
   <div id="wrapper">
     <main>
       <section>
-        <nv-image class="nv-image"/>
+        <div>
+          <nv-image class="nv-image"/>
+        </div>
+        <div class="info">
+          <button @click="unload">Unload</button>
+        </div>
       </section>
       <aside>
         <nv-slider class="slider"
@@ -58,7 +63,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['selectTime', 'selectZ'])
+    ...mapActions(['selectTime', 'selectZ', 'reset']),
+    unload () {
+      this.reset()
+      this.$router.push({ name: 'home' })
+    }
   }
 }
 </script>

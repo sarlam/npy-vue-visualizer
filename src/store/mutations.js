@@ -1,8 +1,4 @@
 export default {
-  RESET: (state) => {
-
-  },
-
   /**
    * setCurrent loaded file name
    *

@@ -26,6 +26,18 @@ export default {
     })
   },
 
+  reset ({ commit }) {
+    commit('SET_FILE_NAME', '')
+    commit('SET_RAW_DATA', {
+      data: new Uint8Array(0),
+      stride: [],
+      shape: [],
+      offset: 0
+    })
+    commit('SELECT_TIME', 0)
+    commit('SELECT_Z', 0)
+  },
+
   /**
    *
    * @param commit
