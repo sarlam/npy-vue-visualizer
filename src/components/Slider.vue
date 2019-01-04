@@ -3,6 +3,7 @@
        :class="{vertical: vertical}">
     <label for="rangeInput">
       {{label}}
+      <button @click="toggleAutoPlay">Au</button>
     </label>
     <input type="range"
            id="rangeInput"
@@ -19,6 +20,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'nv-slider',
   model: {
@@ -48,8 +51,13 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['startAutoPlay', 'stopAutoPlay']),
     updateValue (e) {
+      this.stopAutoPlay(this.label.toLowerCase())
       this.$emit('change', e.target.value)
+    },
+    toggleAutoPlay () {
+      this.startAutoPlay(this.label.toLowerCase())
     }
   }
 }

@@ -40,5 +40,14 @@ export default {
    */
   SELECT_Z: (state, z) => {
     state.selected.z = z
+  },
+
+  SET_NEW_TIMER: (state, { on, timer }) => {
+    state.autoplay[on] = timer
+  },
+
+  STOP_TIMER (state, on) {
+    console.log('stopping timer on ', on)
+    state.autoplay[on] = null
   }
 }

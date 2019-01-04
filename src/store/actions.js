@@ -1,3 +1,5 @@
+import { isUndefined, isNull } from 'lodash'
+
 import toBuffer from 'blob-to-buffer'
 import NumpyParser from 'numpy-parser'
 import ndarray from 'ndarray'
@@ -36,6 +38,39 @@ export default {
     })
     commit('SELECT_TIME', 0)
     commit('SELECT_Z', 0)
+  },
+
+  startAutoPlay ({ commit, dispatch, state }, on) {
+    const timer = state.autoplay[on]
+    if (isUndefined(timer)) return
+
+    if (isNull(timer)) {
+      const autoPlayTimer = setInterval(() => {
+        dispatch('incrementFromTimer', on)
+      }, state.autoplayDelay)
+
+      commit('SET_NEW_TIMER', { on, timer: autoPlayTimer })
+    }
+  },
+
+  incrementFromTimer ({ commit, dispatch, state, getters }, on) {
+    const currentValue = state.selected[on]
+    const maxValue = getters[`max${on.charAt(0).toUpperCase()}${on.slice(1)}`]
+    console.log(currentValue < maxValue)
+    if (currentValue <= maxValue) {
+      commit(`SELECT_${on.toUpperCase()}`, currentValue + 1)
+    } else {
+      dispatch('stopAutoPlay', on)
+    }
+  },
+
+  stopAutoPlay ({ commit, state }, on) {
+    const timer = state.autoplay[on]
+    console.log(timer, isUndefined(timer))
+    if (isUndefined(timer)) return
+
+    clearInterval(timer)
+    commit('STOP_TIMER', on)
   },
 
   /**
