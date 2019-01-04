@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { toNumber } from 'lodash'
+import { toNumber, debounce } from 'lodash'
 import { mapGetters, mapActions } from 'vuex'
 
 import NvImage from '@/components/Image.vue'
@@ -51,18 +51,17 @@ export default {
       get () {
         return this.$store.state.selected.time
       },
-      set (newVal) {
-        // todo debounce
+      set: debounce(function (newVal) {
         this.selectTime(toNumber(newVal))
-      }
+      }, 60)
     },
     z: {
       get () {
         return this.$store.state.selected.z
       },
-      set (newVal) {
+      set: debounce(function (newVal) {
         this.selectZ(toNumber(newVal))
-      }
+      }, 60)
     }
   },
   methods: {
