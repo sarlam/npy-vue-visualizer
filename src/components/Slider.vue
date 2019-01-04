@@ -3,7 +3,10 @@
        :class="{vertical: vertical}">
     <label for="rangeInput">
       {{label}}
-      <button @click="toggleAutoPlay">Au</button>
+      <button @click="toggleAutoPlay">
+        <template v-if="!isAutoplay">Play</template>
+        <template v-else>Pause</template>
+      </button>
     </label>
     <input type="range"
            id="rangeInput"
@@ -20,7 +23,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'nv-slider',
@@ -50,14 +53,25 @@ export default {
       default: false
     }
   },
+  computed: {
+    ...mapGetters({ sIsAutoplay: 'isAutoplay' }),
+    llabel () {
+      return this.label.toLowerCase()
+    },
+    isAutoplay () {
+      return this.sIsAutoplay(this.llabel)
+    }
+  },
   methods: {
     ...mapActions(['startAutoPlay', 'stopAutoPlay']),
     updateValue (e) {
-      this.stopAutoPlay(this.label.toLowerCase())
+      this.stopAutoPlay(this.llabel)
       this.$emit('change', e.target.value)
     },
     toggleAutoPlay () {
-      this.startAutoPlay(this.label.toLowerCase())
+      !this.isAutoplay
+        ? this.startAutoPlay(this.llabel)
+        : this.stopAutoPlay(this.llabel)
     }
   }
 }

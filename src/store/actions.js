@@ -38,6 +38,8 @@ export default {
     })
     commit('SELECT_TIME', 0)
     commit('SELECT_Z', 0)
+    commit('STOP_TIMER', 'time')
+    commit('STOP_TIMER', 'z')
   },
 
   startAutoPlay ({ commit, dispatch, state }, on) {
