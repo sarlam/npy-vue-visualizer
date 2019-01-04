@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash'
+import { isEmpty, isNumber } from 'lodash'
 
 export default {
   /**
@@ -72,5 +72,9 @@ export default {
 
   imageSize: (state) => {
     return `${state.raw.stride[2]}px`
+  },
+
+  isAutoplay: (state) => on => {
+    return isNumber(state.autoplay[on])
   }
 }

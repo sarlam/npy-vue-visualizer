@@ -9,5 +9,10 @@ export default {
   selected: {
     time: 0,
     z: 0
+  },
+  autoplayDelay: 200,
+  autoplay: {
+    time: null,
+    z: null
   }
 }

@@ -40,5 +40,28 @@ export default {
    */
   SELECT_Z: (state, z) => {
     state.selected.z = z
+  },
+
+  /**
+   * hold the setInterval return in the store.
+   *
+   * @param state
+   * @param {String} on - the axis you want the auto-play to go with.
+   * @param {Number} timer - reference to a #setIntervalID
+   * @constructor
+   */
+  SET_NEW_TIMER: (state, { on, timer }) => {
+    state.autoplay[on] = timer
+  },
+
+  /**
+   * reset the timer setInterval stored to null.
+   *
+   * @param state
+   * @param {String} on - the axis you want the auto-play to go with.
+   * @constructor
+   */
+  STOP_TIMER (state, on) {
+    state.autoplay[on] = null
   }
 }
