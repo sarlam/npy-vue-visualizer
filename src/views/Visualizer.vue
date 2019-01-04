@@ -28,12 +28,14 @@
 </template>
 
 <script>
-import { toNumber } from 'lodash'
+import { toNumber, debounce } from 'lodash'
 import { mapGetters, mapActions } from 'vuex'
 
 import NvImage from '@/components/Image.vue'
 import NvSlider from '@/components/Slider.vue'
 import NvInfos from '@/components/Infos.vue'
+
+const DEBOUNCE_TIMER = 60
 
 export default {
   name: 'nv-visualizer',
@@ -51,18 +53,17 @@ export default {
       get () {
         return this.$store.state.selected.time
       },
-      set (newVal) {
-        // todo debounce
+      set: debounce(function (newVal) {
         this.selectTime(toNumber(newVal))
-      }
+      }, DEBOUNCE_TIMER)
     },
     z: {
       get () {
         return this.$store.state.selected.z
       },
-      set (newVal) {
+      set: debounce(function (newVal) {
         this.selectZ(toNumber(newVal))
-      }
+      }, DEBOUNCE_TIMER)
     }
   },
   methods: {

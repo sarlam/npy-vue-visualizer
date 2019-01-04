@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { debounce } from 'lodash'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -64,10 +65,10 @@ export default {
   },
   methods: {
     ...mapActions(['startAutoPlay', 'stopAutoPlay']),
-    updateValue (e) {
+    updateValue: debounce(function (e) {
       this.stopAutoPlay(this.llabel)
       this.$emit('change', e.target.value)
-    },
+    }, 60),
     toggleAutoPlay () {
       !this.isAutoplay
         ? this.startAutoPlay(this.llabel)
