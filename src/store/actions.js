@@ -1,3 +1,5 @@
+import { isUndefined, isNull } from 'lodash'
+
 import toBuffer from 'blob-to-buffer'
 import NumpyParser from 'numpy-parser'
 import ndarray from 'ndarray'
@@ -24,6 +26,89 @@ export default {
 
       commit('SET_RAW_DATA', finalArray)
     })
+  },
+
+  /**
+   * reset to the initial state by committing for each part the reset mutation.
+   *
+   * @param commit
+   */
+  reset ({ commit }) {
+    commit('SET_FILE_NAME', '')
+    commit('SET_RAW_DATA', {
+      data: new Uint8Array(0),
+      stride: [],
+      shape: [],
+      offset: 0
+    })
+    commit('SELECT_TIME', 0)
+    commit('SELECT_Z', 0)
+    commit('STOP_TIMER', 'time')
+    commit('STOP_TIMER', 'z')
+  },
+
+  /**
+   * set up an Interval that dispatch an increment of the selected axis
+   *
+   * @param commit
+   * @param dispatch
+   * @param getters
+   * @param state
+   * @param {String} on - the axis you want the auto-play to go with.
+   */
+  startAutoPlay ({ commit, dispatch, getters, state }, on) {
+    if (!getters.isLoaded) return
+
+    const timer = state.autoplay[on]
+    if (isUndefined(timer)) return
+
+    if (isNull(timer)) {
+      const autoPlayTimer = setInterval(() => {
+        dispatch('incrementFromTimer', on)
+      }, state.autoplayDelay)
+
+      commit('SET_NEW_TIMER', { on, timer: autoPlayTimer })
+    }
+  },
+
+  /**
+   * increment the axis or turn off the timer if it hits the end
+   *
+   * @param commit
+   * @param dispatch
+   * @param state
+   * @param getters
+   * @param {String} on - the axis you want the auto-play to go with.
+   */
+  incrementFromTimer ({ commit, dispatch, state, getters }, on) {
+    if (!getters.isLoaded) return
+
+    const currentValue = state.selected[on]
+    const maxValue = getters[`max${on.charAt(0).toUpperCase()}${on.slice(1)}`]
+
+    if (currentValue <= maxValue) {
+      commit(`SELECT_${on.toUpperCase()}`, currentValue + 1)
+    } else {
+      dispatch('stopAutoPlay', on)
+    }
+  },
+
+  /**
+   * clear the interval previously set on an axis.
+   *
+   * @param commit
+   * @param getters
+   * @param state
+   * @param {String} on - the axis you want the auto-play to go with.
+   */
+  stopAutoPlay ({ commit, getters, state }, on) {
+    if (!getters.isLoaded) return
+
+    const timer = state.autoplay[on]
+    if (isUndefined(timer)) return
+
+    clearInterval(timer)
+    commit('STOP_TIMER', on)
   },
 
   /**
