@@ -28,6 +28,11 @@ export default {
     })
   },
 
+  /**
+   * reset to the initial state by committing for each part the reset mutation.
+   *
+   * @param commit
+   */
   reset ({ commit }) {
     commit('SET_FILE_NAME', '')
     commit('SET_RAW_DATA', {
@@ -42,6 +47,14 @@ export default {
     commit('STOP_TIMER', 'z')
   },
 
+  /**
+   * set up an Interval that dispatch an increment of the selected axis
+   *
+   * @param commit
+   * @param dispatch
+   * @param state
+   * @param {String} on - the axis you want the auto-play to go with.
+   */
   startAutoPlay ({ commit, dispatch, state }, on) {
     const timer = state.autoplay[on]
     if (isUndefined(timer)) return
@@ -55,10 +68,18 @@ export default {
     }
   },
 
+  /**
+   * increment the axis or turn off the timer if it hits the end
+   *
+   * @param commit
+   * @param dispatch
+   * @param state
+   * @param getters
+   * @param {String} on - the axis you want the auto-play to go with.
+   */
   incrementFromTimer ({ commit, dispatch, state, getters }, on) {
     const currentValue = state.selected[on]
     const maxValue = getters[`max${on.charAt(0).toUpperCase()}${on.slice(1)}`]
-    console.log(currentValue < maxValue)
     if (currentValue <= maxValue) {
       commit(`SELECT_${on.toUpperCase()}`, currentValue + 1)
     } else {
@@ -66,9 +87,15 @@ export default {
     }
   },
 
+  /**
+   * clear the interval previously set on an axis.
+   *
+   * @param commit
+   * @param state
+   * @param {String} on - the axis you want the auto-play to go with.
+   */
   stopAutoPlay ({ commit, state }, on) {
     const timer = state.autoplay[on]
-    console.log(timer, isUndefined(timer))
     if (isUndefined(timer)) return
 
     clearInterval(timer)
