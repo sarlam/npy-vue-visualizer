@@ -35,6 +35,8 @@ import NvImage from '@/components/Image.vue'
 import NvSlider from '@/components/Slider.vue'
 import NvInfos from '@/components/Infos.vue'
 
+const DEBOUNCE_TIMER = 60
+
 export default {
   name: 'nv-visualizer',
   components: {
@@ -53,7 +55,7 @@ export default {
       },
       set: debounce(function (newVal) {
         this.selectTime(toNumber(newVal))
-      }, 60)
+      }, DEBOUNCE_TIMER)
     },
     z: {
       get () {
@@ -61,7 +63,7 @@ export default {
       },
       set: debounce(function (newVal) {
         this.selectZ(toNumber(newVal))
-      }, 60)
+      }, DEBOUNCE_TIMER)
     }
   },
   methods: {
