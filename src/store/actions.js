@@ -52,10 +52,13 @@ export default {
    *
    * @param commit
    * @param dispatch
+   * @param getters
    * @param state
    * @param {String} on - the axis you want the auto-play to go with.
    */
-  startAutoPlay ({ commit, dispatch, state }, on) {
+  startAutoPlay ({ commit, dispatch, getters, state }, on) {
+    if (!getters.isLoaded) return
+
     const timer = state.autoplay[on]
     if (isUndefined(timer)) return
 
@@ -78,8 +81,11 @@ export default {
    * @param {String} on - the axis you want the auto-play to go with.
    */
   incrementFromTimer ({ commit, dispatch, state, getters }, on) {
+    if (!getters.isLoaded) return
+
     const currentValue = state.selected[on]
     const maxValue = getters[`max${on.charAt(0).toUpperCase()}${on.slice(1)}`]
+
     if (currentValue <= maxValue) {
       commit(`SELECT_${on.toUpperCase()}`, currentValue + 1)
     } else {
@@ -91,10 +97,13 @@ export default {
    * clear the interval previously set on an axis.
    *
    * @param commit
+   * @param getters
    * @param state
    * @param {String} on - the axis you want the auto-play to go with.
    */
-  stopAutoPlay ({ commit, state }, on) {
+  stopAutoPlay ({ commit, getters, state }, on) {
+    if (!getters.isLoaded) return
+
     const timer = state.autoplay[on]
     if (isUndefined(timer)) return
 

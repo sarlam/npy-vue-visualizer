@@ -62,7 +62,6 @@ export default {
    * @constructor
    */
   STOP_TIMER (state, on) {
-    console.log('stopping timer on ', on)
     state.autoplay[on] = null
   }
 }
